@@ -16,7 +16,7 @@ import schedule
 
 from config import check_config, CITIES, MORNING_TIME, EVENING_TIME
 from weather import get_weather
-from love_message import get_random_love_message
+from love_message import generate_love_message
 from push import send_message, build_html_content
 
 
@@ -71,10 +71,11 @@ def push_once(mode: str = "morning"):
                 "temp_min": "--", "temp_max": "--", "wind": "--",
             })
 
-    # 情话 + 问候
-    love_msg = get_random_love_message()
+    # Gemini 生成情话（带天气/时间/人名上下文）
+    print(f"\n💕 正在用 Gemini 生成情话...")
+    love_msg = generate_love_message(weather_sections, mode=mode, date_str=today)
     greeting = random.choice(GREETINGS.get(mode, GREETINGS["morning"]))
-    print(f"\n💕 {love_msg[:60]}...")
+    print(f"   {love_msg}")
 
     # 构建 HTML 消息
     content = build_html_content(

@@ -1,117 +1,114 @@
 """
-love_message.py - English love quotes, randomly selected
+love_message.py - 使用 Gemini 生成个性化英语情话
+基于天气、时间、城市、人名（黄胜泽 & 马一心）生成
 """
 import random
+from datetime import datetime
 
-LOVE_MESSAGES = [
+import google.generativeai as genai
+from config import GEMINI_API_KEY, GEMINI_MODEL
+
+# 经典英语情话（Gemini 不可用时的备用 + 风格参考）
+CLASSIC_LOVE_MESSAGES = [
     "You are my today and all of my tomorrows.",
     "In a sea of people, my eyes will always search for you.",
     "I love you not only for what you are, but for what I am when I'm with you.",
-    "You're the first thing I think of when I wake up, and the last thing I think of before I fall asleep.",
     "Every love story is beautiful, but ours is my favorite.",
     "I fell in love the way you fall asleep: slowly, and then all at once.",
     "You are my sun, my moon, and all my stars.",
-    "I choose you. And I'll choose you over and over. Without pause, without doubt, in a heartbeat. I'll keep choosing you.",
     "If I had a flower for every time I thought of you, I could walk through my garden forever.",
-    "Wherever you are is my home.",
-    "You make my heart smile.",
-    "I want all of you, forever, you and me, every day.",
-    "You're the best thing that's ever been mine.",
-    "I never want to stop making memories with you.",
     "My heart is and always will be yours.",
     "You are my greatest adventure.",
-    "I love you more than coffee, and that's saying a lot.",
-    "You're the peanut butter to my jelly.",
-    "Together is my favorite place to be.",
     "I love you to the moon and back.",
-    "I didn't choose you. My heart did.",
-    "You stole my heart, but I'll let you keep it.",
-    "Life is better with you in it.",
-    "You are my happily ever after.",
-    "I love you because the entire universe conspired to help me find you.",
-    "Being deeply loved by someone gives you strength, while loving someone deeply gives you courage.",
-    "You had me at hello.",
-    "You are the source of my joy, the center of my world, and the whole of my heart.",
-    "The best thing to hold onto in life is each other.",
-    "I saw that you were perfect, and so I loved you. Then I saw that you were not perfect, and I loved you even more.",
-    "I carry your heart with me. I carry it in my heart.",
-    "You're the closest to heaven that I'll ever be.",
-    "Everything I've ever done has been to get closer to you.",
-    "I love you not because of who you are, but because of who I am when I am with you.",
-    "Your smile is my favorite thing in this world.",
-    "You are my person.",
-    "I wish I could turn back the clock. I'd find you sooner and love you longer.",
-    "There is no remedy for love but to love more.",
-    "You make the ordinary feel extraordinary.",
-    "If you were a book, I'd never put you down.",
-    "You are the answer to every prayer I've ever said.",
-    "Thinking of you keeps me awake. Dreaming of you keeps me asleep. Being with you keeps me alive.",
-    "You're the missing piece I didn't know I needed.",
-    "I'd rather spend one minute holding you than a lifetime without you.",
-    "Meeting you was fate. Becoming your friend was a choice. But falling in love with you was beyond my control.",
-    "You make me want to be a better person, every single day.",
-    "Whatever our souls are made of, yours and mine are the same.",
-    "I will love you until the stars go out, and the tides no longer turn.",
-    "You are my once in a lifetime.",
-    "I love you, and that's the beginning and end of everything.",
-    "A hundred hearts would be too few to carry all my love for you.",
-    "You had me before I even knew it.",
-    "In case you ever foolishly forget — I am never not thinking of you.",
-    "You're not just my love — you're my life.",
-    "The water shines only by the sun. And it is you who are my sun.",
-    "I love you simply, without problems or pride.",
-    "You are my compass. Without you, I'd be lost.",
-    "There's nothing I wouldn't do to make you feel loved.",
-    "Every moment with you is a moment I treasure.",
-    "I still get butterflies even though I've seen you a hundred times.",
-    "You + Me = Everything I ever needed.",
-    "I would rather share one lifetime with you than face all the ages of this world alone.",
-    "It was always you.",
-    "You are the reason I believe in love.",
-    "I look at you and see the rest of my life in front of my eyes.",
-    "There's no one else I'd rather be beside.",
-    "You're the dream I never want to wake up from.",
-    "Everything about you resonates happiness to me.",
-    "You light up my world like nobody else.",
-    "I want to grow old with you.",
-    "In all the world, there is no heart for me like yours.",
-    "I love the way you make me feel. I love it that being around you makes everything better.",
-    "You are the last thought in my mind before I drift off to sleep, and the first thought when I wake up each morning.",
-    "Loving you never was an option. It was a necessity.",
+    "Together is my favorite place to be.",
+    "Wherever you are is my home.",
+    "I choose you. And I'll choose you over and over.",
     "If I know what love is, it is because of you.",
-    "I need you like a heart needs a beat.",
+    "You are the poem I never knew how to write.",
+    "I'd choose you in a hundred lifetimes, in any version of reality.",
     "My favorite place in the world is next to you.",
-    "You are the poem I never knew how to write, and this life is the story I've always wanted to tell.",
-    "I'd choose you in a hundred lifetimes, in a hundred worlds, in any version of reality.",
-    "I am who I am because of you. You are every reason, every hope, and every dream I've ever had.",
-    "You don't cross my mind — you live in it.",
-    "I never loved you any more than I do right this second. And I'll never love you any less than I do right this second.",
-    "When I'm with you, hours feel like seconds. When we're apart, days feel like years.",
-    "I fell in love with you because of a million tiny things you never knew you were doing.",
-    "You are my blue crayon — the one I could never have enough of, the one I used to color my sky.",
     "I love you more than yesterday, less than tomorrow.",
-    "Thank you for always being my rainbow after the storm.",
-    "The day I met you, I found my missing piece.",
-    "Love is not about how many days, months, or years you have been together. Love is about how much you love each other every single day.",
-    "You are the one I want to annoy for the rest of my life.",
-    "I love you — I am at rest with you — I have come home.",
-    "In your arms is the only place I want to be.",
-    "You are more than enough. You are everything.",
-    "Love is a friendship set to music, and ours is the most beautiful song.",
-    "I love you right up to the moon — and back.",
-    "No matter where I go, my heart always leads me back to you.",
-    "Every day with you is a gift I never want to return.",
-    "You are the magic in my ordinary days.",
-    "I could search my whole life and never find another you.",
-    "When I say I love you, please believe it's true. I've never said it to someone I didn't mean it to.",
+    "You stole my heart, but I'll let you keep it.",
+    "I look at you and see the rest of my life in front of my eyes.",
 ]
 
 
+def generate_love_message(
+    weather_sections: list,
+    mode: str = "morning",
+    date_str: str = "",
+) -> str:
+    """
+    使用 Gemini 生成个性化英语情话
+
+    Args:
+        weather_sections: [{"person":"胜泽","city":"北京","text":"晴","temp_min":"3","temp_max":"15"}]
+        mode: "morning" / "evening"
+        date_str: 日期字符串
+
+    Returns:
+        str: 英语情话
+    """
+    if not GEMINI_API_KEY:
+        return random.choice(CLASSIC_LOVE_MESSAGES)
+
+    # 构建上下文
+    time_context = "morning (early day)" if mode == "morning" else "evening (night time)"
+    weather_desc = "; ".join(
+        f"{w['person']} is in {w['city']}, weather: {w['text']} {w.get('temp_min','--')}~{w.get('temp_max','--')}℃"
+        for w in weather_sections
+    )
+    inspirations = random.sample(CLASSIC_LOVE_MESSAGES, 3)
+    inspiration_text = "\n".join(f"- {m}" for m in inspirations)
+
+    prompt = f"""You are a romantic poet writing a short love message for a couple: 黄胜泽 (Shengze) and 马一心 (Yixin).
+
+Context:
+- Date: {date_str or datetime.now().strftime('%Y-%m-%d')}
+- Time: {time_context}
+- {weather_desc}
+
+Style inspirations (for reference only, do NOT copy):
+{inspiration_text}
+
+Write ONE short, sweet, creative English love message (1-2 sentences max).
+Requirements:
+- Must be in English
+- Naturally weave in the weather or time of day when it fits
+- Make it feel personal and warm, occasionally use their names (Shengze or Yixin)
+- Be poetic but not overly flowery
+- Different from the inspirations above
+- Do NOT include quotes around the message
+- Do NOT include any explanation, just the message itself"""
+
+    try:
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel(GEMINI_MODEL)
+        response = model.generate_content(
+            prompt,
+            generation_config=genai.GenerationConfig(
+                temperature=0.9,
+                max_output_tokens=100,
+            ),
+        )
+        text = response.text.strip().strip('"').strip("'").strip()
+        if text:
+            return text
+    except Exception as e:
+        print(f"  ⚠️ Gemini 调用失败（{e}），使用经典情话")
+
+    return random.choice(CLASSIC_LOVE_MESSAGES)
+
+
 def get_random_love_message() -> str:
-    """Return a random English love quote"""
-    return random.choice(LOVE_MESSAGES)
+    """备用：随机返回经典情话"""
+    return random.choice(CLASSIC_LOVE_MESSAGES)
 
 
 if __name__ == "__main__":
-    print("💕 Today's love message:")
-    print(get_random_love_message())
+    test_sections = [
+        {"person": "胜泽", "city": "北京", "text": "晴", "temp_min": "3", "temp_max": "15"},
+        {"person": "一心", "city": "南昌", "text": "多云", "temp_min": "8", "temp_max": "18"},
+    ]
+    msg = generate_love_message(test_sections, mode="morning")
+    print(f"💕 {msg}")
