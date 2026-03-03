@@ -1,5 +1,13 @@
 # 微信每日天气推送 💌 WeChat Daily Weather Push
 
+---
+
+## 📖 文档 / Documentation
+
+详细文档请访问 / For detailed docs, visit:
+
+🔗 **[在线文档 / Online Docs](https://huangshengzebluesky.github.io/Wechat_Weather/)**
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" />
   <img src="https://img.shields.io/badge/Gemini-AI%20Powered-orange?logo=google" />
@@ -139,13 +147,6 @@ python main.py --schedule
 | 和风天气 | [dev.qweather.com](https://dev.qweather.com/) | 注册 → 创建应用 → 复制 Key |
 | Gemini | [aistudio.google.com](https://aistudio.google.com/apikey) | 获取 API Key（可选，不配则用经典情话库） |
 
----
-
-## 📖 文档 / Documentation
-
-详细文档请访问 / For detailed docs, visit:
-
-🔗 **[在线文档 / Online Docs](https://huangshengzebluesky.github.io/Wechat_Weather/)**
 
 ---
 
