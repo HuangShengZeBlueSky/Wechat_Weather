@@ -1,0 +1,74 @@
+name: Daily Weather Push
+
+on:
+  schedule:
+    # 早安推送：北京时间 07:30 = UTC 23:30 (前一天)
+    - cron: '30 23 * * *'
+    # 晚安推送：北京时间 22:00 = UTC 14:00
+    - cron: '0 14 * * *'
+
+  # 允许在 GitHub 网页上手动触发
+  workflow_dispatch:
+    inputs:
+      push_mode:
+        description: '推送模式'
+        required: true
+        default: 'morning'
+        type: choice
+        options:
+          - morning
+          - evening
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Determine Push Mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "push_mode=${{ github.event.inputs.push_mode }}" >> $GITHUB_OUTPUT
+          else
+            # 根据 cron 触发时间自动判断模式
+            HOUR=$(date -u +%H)
+            if [ "$HOUR" = "23" ]; then
+              echo "push_mode=morning" >> $GITHUB_OUTPUT
+            else
+              echo "push_mode=evening" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Run Weather Script
+        env:
+          # PushPlus
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+          PUSHPLUS_TOPIC: ${{ secrets.PUSHPLUS_TOPIC }}
+          # Gemini
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+          # 和风天气
+          QWEATHER_API_KEY: ${{ secrets.QWEATHER_API_KEY }}
+          QWEATHER_API_HOST: ${{ secrets.QWEATHER_API_HOST }}
+          # 城市配置（非敏感信息，直接写在这里）
+          CITY_1_PERSON: 胜泽
+          CITY_1_ID: '101010100'
+          CITY_1_NAME: 北京
+          CITY_2_PERSON: 一心
+          CITY_2_ID: '101240101'
+          CITY_2_NAME: 南昌
+        run: |
+          python main.py --mode ${{ steps.mode.outputs.push_mode }}

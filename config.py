@@ -6,10 +6,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 env_path = Path(__file__).parent / ".env"
-if not env_path.exists():
-    raise FileNotFoundError("未找到 .env 文件！请将 .env.example 复制为 .env 并填入你的配置。")
-
-load_dotenv(env_path)
+if env_path.exists():
+    load_dotenv(env_path)
+# 如果 .env 不存在，直接从系统环境变量读取（兼容 GitHub Actions）
 
 # ---- PushPlus ----
 PUSHPLUS_TOKEN: str = os.getenv("PUSHPLUS_TOKEN", "")
