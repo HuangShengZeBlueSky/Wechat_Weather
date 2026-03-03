@@ -18,12 +18,16 @@ python main.py --mode morning
 
 Reads `.env` → calls weather API → calls Gemini → builds HTML → PushPlus → WeChat 📱
 
+![Local Run](/images/local_run.png)
+
 ---
 
 ## Method 2: GitHub Actions Manual Trigger
 
 1. Go to repo → **Actions** → **Daily Weather Push**
 2. Click **Run workflow** → choose mode → run
+
+![Manual Trigger](/images/actions_manual.png)
 
 ---
 
@@ -72,10 +76,4 @@ All methods produce the same beautiful HTML card with:
 - Love message (English)
 - Random greeting
 
-<!-- 📸 WeChat screenshot -->
-<!--
 ![WeChat Push](/images/wechat_push.png)
--->
-::: tip 📸 WeChat Push Screenshot
-Place at `docs/public/images/wechat_push.png`
-:::

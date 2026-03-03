@@ -12,19 +12,11 @@ Automatically push **weather + AI commentary + love messages** to WeChat daily, 
 
 ---
 
-<!-- 📸 效果图 / Screenshots -->
-<!-- 把你的截图放在 docs/public/images/ 文件夹中，然后取消下方注释 -->
-<!-- Place your screenshots in docs/public/images/ folder, then uncomment below -->
-
-<!-- 
 <p align="center">
   <img src="docs/public/images/morning_push.png" width="300" alt="早安推送效果 / Morning Push" />
   &nbsp;&nbsp;&nbsp;
   <img src="docs/public/images/evening_push.png" width="300" alt="晚安推送效果 / Evening Push" />
 </p>
--->
-
-> 🖼️ **效果图占位** — 截图后替换上面的注释即可 / **Screenshot placeholder** — replace the comments above with your images
 
 ---
 
@@ -83,12 +75,9 @@ python main.py --schedule
 2. 点 **Run workflow** → 选择 `morning` 或 `evening` → 运行
 3. 适合测试和随时推送
 
-<!-- 📸 GitHub Actions 手动触发截图占位 -->
-<!-- 
 <p align="center">
-  <img src="docs/public/images/github_actions_manual.png" width="600" alt="GitHub Actions 手动触发 / Manual Trigger" />
+  <img src="docs/public/images/actions_manual.png" width="600" alt="GitHub Actions 手动触发 / Manual Trigger" />
 </p>
--->
 
 ### 方式三：GitHub Actions 定时触发（推荐）/ Scheduled (Recommended)
 
@@ -114,12 +103,9 @@ python main.py --schedule
 
 2. 推送代码到 GitHub，定时任务自动生效
 
-<!-- 📸 GitHub Secrets 配置截图占位 -->
-<!-- 
 <p align="center">
-  <img src="docs/public/images/github_secrets.png" width="600" alt="GitHub Secrets 配置 / Secrets Config" />
+  <img src="docs/public/images/secrets_config.png" width="600" alt="GitHub Secrets 配置 / Secrets Config" />
 </p>
--->
 
 ---
 

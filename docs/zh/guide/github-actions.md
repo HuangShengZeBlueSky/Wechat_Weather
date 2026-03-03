@@ -23,13 +23,7 @@
 Secret 的 Name **必须**和表格中完全一样（大写、下划线），否则代码读不到。
 :::
 
-<!-- 📸 Secrets 配置截图 -->
-<!--
 ![Secrets 配置页面](/images/secrets_config.png)
--->
-::: tip 📸 Secrets 配置截图
-放入 `docs/public/images/secrets_config.png`
-:::
 
 ## 城市配置
 
@@ -53,13 +47,7 @@ env:
 2. 点击 **Run workflow**
 3. 选择模式 → 运行
 
-<!-- 📸 手动触发截图 -->
-<!--
 ![手动触发](/images/manual_trigger.png)
--->
-::: tip 📸 手动触发截图
-放入 `docs/public/images/manual_trigger.png`
-:::
 
 ## 查看运行日志
 

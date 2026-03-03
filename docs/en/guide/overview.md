@@ -4,13 +4,7 @@
 
 **WeChat Daily Weather Push** is an automated system that pushes beautifully formatted messages containing **weather info, AI commentary, and love messages** to WeChat every day.
 
-<!-- 📸 Screenshots -->
-<!--
 ![Morning Push](/images/morning_push.png)
--->
-::: tip 📸 Screenshots
-Place your screenshots in `docs/public/images/`, then uncomment above.
-:::
 
 ## Features
 

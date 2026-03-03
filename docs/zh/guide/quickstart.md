@@ -69,13 +69,7 @@ python main.py --mode evening
 python main.py --schedule
 ```
 
-<!-- 📸 终端运行截图 -->
-<!--
 ![终端运行效果](/images/terminal_run.png)
--->
-::: tip 📸 终端运行截图
-截图准备好后放入 `docs/public/images/terminal_run.png`
-:::
 
 ## 下一步
 

@@ -16,6 +16,10 @@
 └── requirements.txt      # 📦 依赖
 ```
 
+## 系统架构图
+
+![系统架构图](/images/architecture.png)
+
 ## 模块详解
 
 ### `config.py` — 配置中心
@@ -96,11 +100,3 @@ python main.py
                              ├── 每天 MORNING_TIME → morning
                              └── 每天 EVENING_TIME → evening
 ```
-
-<!-- 📸 架构图 -->
-<!--
-![系统架构图](/images/architecture.png)
--->
-::: tip 📸 架构图
-如果你有更精美的架构图，放入 `docs/public/images/architecture.png`
-:::
